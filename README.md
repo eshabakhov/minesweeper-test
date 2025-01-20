@@ -31,5 +31,9 @@ mvn package spring-boot:repackage
 docker-compose up -d
 ```
 
+3. Использование API в приложении
+
+Для того, чтобы использовать API в игре, необходимо в поле "URL API (можно относительный путь):" указать http://localhost:9500/api/v1
+
 ## Спецификация OpenAPI
 http://localhost:9500/api/swagger-ui/index.html после запуска приложения
