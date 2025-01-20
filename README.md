@@ -23,7 +23,7 @@ https://minesweeper-test.studiotg.ru/
 
 1. Для сборки приложения использовать команду:
 ```
-mvn clean package -P build
+mvn package spring-boot:repackage
 ```
 
 2. Для запуска приложения и БД в контейнерах:
