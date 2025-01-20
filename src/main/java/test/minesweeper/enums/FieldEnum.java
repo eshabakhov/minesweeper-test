@@ -1,7 +1,7 @@
 package test.minesweeper.enums;
 
 public enum FieldEnum {
-    EMPTY(" "), // Это может быть для пустого значения (если нужно)
+    EMPTY(" "),
     ZERO("0"),
     ONE("1"),
     TWO("2"),
@@ -11,18 +11,15 @@ public enum FieldEnum {
     SIX("6"),
     SEVEN("7"),
     EIGHT("8"),
-    M("M"), // Символ "M"
-    X("X");  // Символ "X"
+    M("M"),
+    X("X");
 
-    private String value;
+    private final String value;
 
-    // Конструктор для числовых значений
     FieldEnum() {
-        // Для M и X оставляем null, так как они не имеют числового значения
         this.value = null;
     }
 
-    // Конструктор для числовых значений
     FieldEnum(String value) {
         this.value = value;
     }

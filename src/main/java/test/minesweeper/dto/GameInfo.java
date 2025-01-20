@@ -7,15 +7,15 @@ import java.util.Random;
 import java.util.UUID;
 
 @Data
-public class GameServer {
+public class GameInfo {
     private final String game_id;
     private final Integer width;
     private final Integer height;
     private final Integer minesCount;
-    private final String[][] field;
+    private final FieldEnum[][] field;
     private Boolean completed;
 
-    public GameServer(GameNewRequest newGameRequest) {
+    public GameInfo(GameNewRequest newGameRequest) {
         game_id = UUID.randomUUID().toString();
         width = newGameRequest.getWidth();
         height = newGameRequest.getHeight();
@@ -23,16 +23,16 @@ public class GameServer {
         field = initFields(height, width);
     }
 
-    private String[][] initFields(Integer height, Integer width) {
-        String [][] fieldEnums = new String[height][width];
+    private FieldEnum[][] initFields(Integer height, Integer width) {
+        FieldEnum [][] fieldEnums = new FieldEnum[height][width];
         initDefaultFields(fieldEnums);
         return fieldEnums;
     }
 
-    private void initDefaultFields(String[][] fieldEnums) {
+    private void initDefaultFields(FieldEnum[][] fieldEnums) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                fieldEnums[i][j] = FieldEnum.ZERO.getValue();
+                fieldEnums[i][j] = FieldEnum.ZERO;
             }
         }
     }
@@ -41,7 +41,7 @@ public class GameServer {
         boolean t = true;
         for (int i = 0; i < height && t; i++) {
             for (int j = 0; j < width; j++) {
-                if (!FieldEnum.ZERO.getValue().equals(field[i][j])) {
+                if (!FieldEnum.ZERO.equals(field[i][j])) {
                     t = false;
                     break;
                 }
@@ -55,15 +55,15 @@ public class GameServer {
         reInitFields(field);
     }
 
-    private void initBombs(String[][] fieldEnums, Integer minesCount, int row, int col) {
+    private void initBombs(FieldEnum[][] fieldEnums, Integer minesCount, int row, int col) {
         Random random = new Random();
         int k = (int) Math.round(Math.sqrt(height * width));
         while(minesCount > 0) {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (random.nextInt(k) == 0 && !FieldEnum.X.getValue().equals(fieldEnums[i][j]) && minesCount > 0
+                    if (random.nextInt(k) == 0 && !FieldEnum.X.equals(fieldEnums[i][j]) && minesCount > 0
                     && (i != row || j != col)) {
-                        fieldEnums[i][j] = FieldEnum.X.getValue();
+                        fieldEnums[i][j] = FieldEnum.X;
                         minesCount--;
                     }
                 }
@@ -74,30 +74,61 @@ public class GameServer {
         }
     }
 
-    private void reInitFields(String[][] fieldEnums) {
+    private void reInitFields(FieldEnum[][] fieldEnums) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (!FieldEnum.X.getValue().equals(fieldEnums[i][j])) {
+                if (!FieldEnum.X.equals(fieldEnums[i][j])) {
                     reInitField(fieldEnums, i, j);
                 }
             }
         }
     }
 
-    private void reInitField(String[][] fieldEnums, int row, int col) {
+    private void reInitField(FieldEnum[][] fieldEnums, int row, int col) {
         int minesCount = 0;
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 if (dx != 0 || dy != 0) {
                     int nx = row + dx, ny = col + dy;
                     if (nx >= 0 && ny >= 0 && nx < height && ny < width) {
-                        if (FieldEnum.X.getValue().equals(fieldEnums[nx][ny])) {
+                        if (FieldEnum.X.equals(fieldEnums[nx][ny])) {
                             minesCount++;
                         }
                     }
                 }
             }
         }
-        fieldEnums[row][col] = String.valueOf(minesCount);
+        switch (minesCount) {
+            case 0:
+                fieldEnums[row][col] = FieldEnum.ZERO;
+                break;
+            case 1:
+                fieldEnums[row][col] = FieldEnum.ONE;
+                break;
+            case 2:
+                fieldEnums[row][col] = FieldEnum.TWO;
+                break;
+            case 3:
+                fieldEnums[row][col] = FieldEnum.THREE;
+                break;
+            case 4:
+                fieldEnums[row][col] = FieldEnum.FOUR;
+                break;
+            case 5:
+                fieldEnums[row][col] = FieldEnum.FIVE;
+                break;
+            case 6:
+                fieldEnums[row][col] = FieldEnum.SIX;
+                break;
+            case 7:
+                fieldEnums[row][col] = FieldEnum.SEVEN;
+                break;
+            case 8:
+                fieldEnums[row][col] = FieldEnum.EIGHT;
+                break;
+            default:
+                break;
+        }
+
     }
 }

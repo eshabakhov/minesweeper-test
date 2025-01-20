@@ -11,7 +11,7 @@ public class GameScheduleTask {
         this.gameComponent = gameComponent;
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 10000)
     public void deleteGame() {
         gameComponent.deleteGame();
     }

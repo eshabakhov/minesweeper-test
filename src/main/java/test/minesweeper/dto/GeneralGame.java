@@ -6,13 +6,13 @@ import java.time.LocalDateTime;
 
 @Data
 public class GeneralGame {
-    private GameServer gameServer;
-    private GameClient gameClient;
+    private GameInfo gameInfo;
+    private GameInfoResponse gameInfoResponse;
     private LocalDateTime localDateTime;
 
-    public GeneralGame (GameServer gameServer, GameClient gameClient) {
-        this.gameServer = gameServer;
-        this.gameClient = gameClient;
+    public GeneralGame (GameInfo gameInfo, GameInfoResponse gameInfoResponse) {
+        this.gameInfo = gameInfo;
+        this.gameInfoResponse = gameInfoResponse;
         this.localDateTime = LocalDateTime.now();
     }
 }

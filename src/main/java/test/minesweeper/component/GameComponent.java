@@ -14,12 +14,14 @@ public class GameComponent {
 
     private ConcurrentHashMap<String, GeneralGame> gameHashMap;
 
+    private static final int MINUTES_GAME_TO_DELETE = 2;
+
     public GameComponent() {
         this.gameHashMap = new ConcurrentHashMap<>();
     }
 
     public void addGame(GeneralGame generalGame) {
-        gameHashMap.put(generalGame.getGameServer().getGame_id(), generalGame);
+        gameHashMap.put(generalGame.getGameInfo().getGame_id(), generalGame);
     }
 
     public GeneralGame getGame(String gameId) {
@@ -27,6 +29,7 @@ public class GameComponent {
     }
 
     public void deleteGame() {
-        gameHashMap.values().removeIf(value -> ChronoUnit.MINUTES.between(value.getLocalDateTime(), LocalDateTime.now()) >= 2);
+        gameHashMap.values().removeIf(value ->
+                ChronoUnit.MINUTES.between(value.getLocalDateTime(), LocalDateTime.now()) >= MINUTES_GAME_TO_DELETE);
     }
 }

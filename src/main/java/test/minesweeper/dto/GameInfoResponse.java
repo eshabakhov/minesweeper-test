@@ -4,7 +4,7 @@ import lombok.Data;
 import test.minesweeper.enums.FieldEnum;
 
 @Data
-public class GameClient {
+public class GameInfoResponse {
     private final String game_id;
     private final Integer width;
     private final Integer height;
@@ -12,11 +12,11 @@ public class GameClient {
     private String[][] field;
     private Boolean completed;
 
-    public GameClient(GameServer gameServer) {
-        game_id = gameServer.getGame_id();
-        width = gameServer.getWidth();
-        height = gameServer.getHeight();
-        mines_count = gameServer.getMinesCount();
+    public GameInfoResponse(GameInfo gameInfo) {
+        game_id = gameInfo.getGame_id();
+        width = gameInfo.getWidth();
+        height = gameInfo.getHeight();
+        mines_count = gameInfo.getMinesCount();
         field = initFields();
         completed = false;
     }
