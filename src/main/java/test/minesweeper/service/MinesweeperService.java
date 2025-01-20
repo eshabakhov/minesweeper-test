@@ -115,36 +115,36 @@ public class MinesweeperService {
     }
 
     private void paintZeroFields(FieldEnum[][] serverFields, String[][] clientFields, int height, int width, int row, int col) {
-        if (row >= 0 && col >= 0 && row < height && col < width) {
-            // изменить условие
-            if (FieldEnum.ZERO.equals(serverFields[row][col]) &&
-                    !Objects.equals(clientFields[row][col], serverFields[row][col].getValue())) {
+        if (row < 0 || col < 0 || row >= height || col >= width) {
+            return;
+        }
+        if (FieldEnum.ZERO.equals(serverFields[row][col]) &&
+                !Objects.equals(clientFields[row][col], serverFields[row][col].getValue())) {
 
-                clientFields[row][col] = serverFields[row][col].getValue();
+            clientFields[row][col] = serverFields[row][col].getValue();
 
-                paintZeroFields(serverFields, clientFields, height, width, row - 1, col - 1);
-                paintZeroFields(serverFields, clientFields, height, width, row - 1, col);
-                paintZeroFields(serverFields, clientFields, height, width, row - 1, col + 1);
+            paintZeroFields(serverFields, clientFields, height, width, row - 1, col - 1);
+            paintZeroFields(serverFields, clientFields, height, width, row - 1, col);
+            paintZeroFields(serverFields, clientFields, height, width, row - 1, col + 1);
 
-                paintZeroFields(serverFields, clientFields, height, width, row, col - 1);
-                paintZeroFields(serverFields, clientFields, height, width, row, col);
-                paintZeroFields(serverFields, clientFields, height, width, row, col + 1);
+            paintZeroFields(serverFields, clientFields, height, width, row, col - 1);
+            paintZeroFields(serverFields, clientFields, height, width, row, col);
+            paintZeroFields(serverFields, clientFields, height, width, row, col + 1);
 
-                paintZeroFields(serverFields, clientFields, height, width, row + 1, col - 1);
-                paintZeroFields(serverFields, clientFields, height, width, row + 1, col);
-                paintZeroFields(serverFields, clientFields, height, width, row + 1, col + 1);
-            } else {
-                for (int dx = -1; dx <= 1; dx++) {
-                    for (int dy = -1; dy <= 1; dy++) {
-                        if (dx != 0 || dy != 0) {
-                            int nx = row + dx, ny = col + dy;
-                            if (nx >= 0 && ny >= 0 && nx < height && ny < width) {
-                                if (!FieldEnum.EMPTY.equals(serverFields[nx][ny]) &&
-                                !FieldEnum.X.equals(serverFields[nx][ny]) &&
-                                !FieldEnum.M.equals(serverFields[nx][ny]) &&
-                                !FieldEnum.ZERO.equals(serverFields[nx][ny]))
-                                    clientFields[nx][ny] = serverFields[nx][ny].getValue();
-                            }
+            paintZeroFields(serverFields, clientFields, height, width, row + 1, col - 1);
+            paintZeroFields(serverFields, clientFields, height, width, row + 1, col);
+            paintZeroFields(serverFields, clientFields, height, width, row + 1, col + 1);
+
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    if (dx != 0 || dy != 0) {
+                        int nx = row + dx, ny = col + dy;
+                        if (nx >= 0 && ny >= 0 && nx < height && ny < width) {
+                            if (!FieldEnum.EMPTY.equals(serverFields[nx][ny]) &&
+                                    !FieldEnum.X.equals(serverFields[nx][ny]) &&
+                                    !FieldEnum.M.equals(serverFields[nx][ny]) &&
+                                    !FieldEnum.ZERO.equals(serverFields[nx][ny]))
+                                clientFields[nx][ny] = serverFields[nx][ny].getValue();
                         }
                     }
                 }
@@ -159,7 +159,7 @@ public class MinesweeperService {
         String[][] clientFields = gameInfoResponse.getField();
         boolean t = true;
 
-        // перейти на счетчики
+        // можно перейти на счетчики, чтобы не итерироваться по массиву
         for (int i = 0; i < gameInfo.getHeight() && t; i++) {
             for (int j = 0; j < gameInfo.getWidth(); j++) {
                 if (FieldEnum.EMPTY.getValue().equals(clientFields[i][j]) && !FieldEnum.X.equals(serverFields[i][j])) {

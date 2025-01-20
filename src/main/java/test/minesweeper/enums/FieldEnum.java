@@ -1,5 +1,8 @@
 package test.minesweeper.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum FieldEnum {
     EMPTY(" "),
     ZERO("0"),
@@ -24,7 +27,4 @@ public enum FieldEnum {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 }
