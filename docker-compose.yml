@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  minesweeper-app:
+    image: openjdk:17
+    container_name: minesweeper-app
+    ports:
+      - "9500:9500"
+    volumes:
+      - ./target/minesweeper-0.0.1-SNAPSHOT.jar:/opt/app.jar
+    command: java -jar /opt/app.jar
