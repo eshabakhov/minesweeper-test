@@ -123,14 +123,10 @@ public class MinesweeperService {
 
             clientFields[row][col] = serverFields[row][col].getValue();
 
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
-                    paintZeroFields(serverFields, clientFields, height, width, row + dx, col + dy);
-                }
-            }
 
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = -1; dy <= 1; dy++) {
+                    paintZeroFields(serverFields, clientFields, height, width, row + dx, col + dy);
                     if (dx != 0 || dy != 0) {
                         int nx = row + dx, ny = col + dy;
                         if (nx >= 0 && ny >= 0 && nx < height && ny < width) {
